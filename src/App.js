@@ -36,8 +36,19 @@ function App() {
         <div className="row">
           <div className="col-10 mx-auto col-med-8 mt-5">
             <h3 className="text-capitalize text-center">Add Your Shit</h3>
-            <Input />
-            <List />
+            {console.log(list)};
+            <Input
+              item={list.item}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              handleEdit={handleEdit}
+            />
+            <List
+              item={list.item}
+              clearList={clearList}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
           </div>
         </div>
       </div>
