@@ -35,7 +35,7 @@ function App() {
       <div className="container">
         <div className="row">
           <div className="col-10 mx-auto col-med-8 mt-5">
-            <h3 className="text-capitalize text-center">Add Your Shit</h3>
+            <h3 className="text-capitalize text-center">Your Shit List</h3>
             {console.log(list)};
             <Input
               item={list.item}
