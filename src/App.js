@@ -1,50 +1,76 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Input from "./components/ToDoInput";
-import List from "./components/ToDoList";
+import List from "./components/List";
+import Input from "./components/Input";
 
 function App() {
-  const [list, makeList] = useState({
-    items: [
-      { id: 1, title: "make list" },
-      { id: 2, title: "enter shit" },
-      { id: 3, title: "do stuff" },
-    ],
+  //state
+  const [item, createNewItem] = useState({
+    todo: "",
     id: uuidv4(),
-    item: "",
     editItem: false,
   });
-  function handleChange(e) {
-    console.log("handle change");
-  }
-  function handleSubmit(e) {
-    console.log("handle submit");
-  }
+  const [list, createNewList] = useState([]);
+  //functions
+
   function handleDelete(id) {
-    console.log(`handle delete ${id}`);
+    createNewList(list.filter((e) => e.id !== id));
   }
+
   function handleEdit(id) {
-    console.log(`handle edit ${id}`);
+    createNewList(list.filter((e) => e.id !== id));
+    const selectedItem = list.find((e) => e.id === id);
+    createNewItem({
+      todo: selectedItem.todo,
+      id: id,
+      editItem: true,
+    });
+    console.log(list);
   }
+
   function clearList() {
-    console.log("clearList");
+    return createNewList([]);
   }
+
+  function handleChange(e) {
+    const newItem = e.target.value;
+    createNewItem((prev) => {
+      return {
+        ...prev,
+        todo: newItem,
+      };
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    //add new item to list
+    createNewList((prev) => {
+      return [...prev, item];
+    });
+    // clear item from input field
+    createNewItem({
+      todo: "",
+      id: uuidv4(),
+      editItem: false,
+    });
+  }
+
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col-10 mx-auto col-med-8 mt-5">
-            <h3 className="text-capitalize text-center">Your Shit List</h3>
-            {console.log(list)};
+            <h3 className="text-capitalize text-center">Add Your Items Here</h3>
             <Input
-              item={list.item}
+              todo={item.todo}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
-              handleEdit={handleEdit}
+              editItem={item.editItem}
             />
             <List
-              item={list.item}
+              list={list}
               clearList={clearList}
               handleEdit={handleEdit}
               handleDelete={handleDelete}
